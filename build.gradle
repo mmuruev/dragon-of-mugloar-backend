@@ -14,6 +14,11 @@ plugins {
     id 'application'
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_13 // just because my IDEA doesn't support 14 version yet
+    targetCompatibility = JavaVersion.VERSION_14
+}
+
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
