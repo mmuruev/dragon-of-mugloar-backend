@@ -26,11 +26,11 @@ repositories {
 }
 
 ext {
-    lombokVersion='1.18.12'
-    springBootVersion='2.2.5.RELEASE'
-    reactorSpringVersion='1.0.1.RELEASE'
+    lombokVersion = '1.18.12'
+    springBootVersion = '2.2.5.RELEASE'
+    reactorSpringVersion = '1.0.1.RELEASE'
 
-    junitVersion='5.6.0'
+    junitVersion = '5.6.0'
 }
 
 dependencies {
@@ -38,15 +38,20 @@ dependencies {
     implementation 'com.google.guava:guava:28.2-jre'
 
     implementation "org.springframework.boot:spring-boot-starter-webflux:${springBootVersion}"
-    implementation "org.projectreactor:reactor-spring:${reactorSpringVersion}"
 
+    implementation("org.projectreactor:reactor-spring:${reactorSpringVersion}") {
+        exclude module: "spring-tx"
+    }
+
+    implementation group: 'org.eclipse.jetty', name: 'jetty-util', version: '9.4.27.v20200227'
+    // Fix issue 3464 Split SslContextFactory into Client and Server
 
     // LOMBOK
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
-   	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-   	testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-   	testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     // LOMBOK END
 
     // Use JUnit Jupiter API for testing.
