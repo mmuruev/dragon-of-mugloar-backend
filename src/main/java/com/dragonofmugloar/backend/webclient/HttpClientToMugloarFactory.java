@@ -22,11 +22,17 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class HttpClientToMugloarFactory {
 
-    @Value("${api.request.timeout.milliseconds:1000}")
     private int HTTP_REQUEST_TIMEOUT_MILLISECONDS;
 
-    @Value("${api.base.url}")
     private String BASE_API_URL;
+
+    public HttpClientToMugloarFactory(
+        @Value("${api.base.url}") String baseUrlApi,
+        @Value("${api.request.timeout.milliseconds:1000}") int httpRequestTimeoutMilliseconds
+    ) {
+        BASE_API_URL = baseUrlApi;
+        HTTP_REQUEST_TIMEOUT_MILLISECONDS = httpRequestTimeoutMilliseconds;
+    }
 
 
     @Bean
