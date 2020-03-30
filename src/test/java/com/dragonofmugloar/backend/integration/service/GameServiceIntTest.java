@@ -1,14 +1,17 @@
-package com.dragonofmugloar.backend.service;
+package com.dragonofmugloar.backend.integration.service;
+
 
 import com.dragonofmugloar.backend.conf.IntegrationTest;
 import com.dragonofmugloar.backend.model.character.Reputation;
 import com.dragonofmugloar.backend.model.common.GameInfo;
+import com.dragonofmugloar.backend.service.GameService;
 import com.dragonofmugloar.backend.test.ApplicationTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
@@ -16,6 +19,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestExecutionListeners(inheritListeners = false,
     listeners =
@@ -25,10 +29,18 @@ import static org.junit.jupiter.api.Assertions.*;
         }
 )
 @Slf4j
-class GameServiceTest extends ApplicationTesting {
+@IntegrationTest
+class GameServiceIntTest extends ApplicationTesting {
 
     @Autowired
     private GameService gameService;
+
+
+    @BeforeEach
+    void setUp() {
+        gameInfo = Optional.ofNullable(gameInfo).or(() -> gameService.startGame()).orElse(null);
+        assertNotNull(gameInfo, "No Game data from server");
+    }
 
     @DisplayName("Test WebClient and Start Game")
     @Test
@@ -58,3 +70,4 @@ class GameServiceTest extends ApplicationTesting {
         assertEquals(0, reputation.get().getUnderworld());
     }
 }
+
