@@ -12,6 +12,7 @@ import com.dragonofmugloar.backend.service.TaskService;
 import com.dragonofmugloar.backend.test.ApplicationTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.TestExecutionListeners;
@@ -43,9 +44,10 @@ public class ShopServiceIntTest extends ApplicationTesting {
 
     @BeforeEach
     void setUp() {
-        assertNotNull(gameInfo, "GameInfo is required for testing");
+        assertNotNull(gameInfo.getGameId(), "GameInfo is required for testing");
     }
 
+    @DisplayName("Trying to fetch items list")
     @Test
     void getItemsList() {
         List<Item> itemsList = shopService.getItemsList(gameInfo.getGameId());
@@ -53,15 +55,14 @@ public class ShopServiceIntTest extends ApplicationTesting {
         assertFalse(itemsList.isEmpty());
 
         log.info("Shop items list {}", itemsList);
-
-
     }
 
+    @DisplayName("Trying to byu items")
     @Test
     void purchaseItem() {
 
-        if (gameInfo.getGold() > 100) {
-            log.info("Not enought credit {}", gameInfo.getGold());
+        if (gameInfo.getGold() < 100) {
+            log.info("Not enough credit {}", gameInfo.getGold());
             getCredit();
         }
 
@@ -70,7 +71,6 @@ public class ShopServiceIntTest extends ApplicationTesting {
         assertTrue(purchaseItem.isPresent(), "Purchase healing acquired");
 
         log.info("Purchased {}", purchaseItem.get());
-
 
         assertEquals("true", purchaseItem.get().getShoppingSuccess());
     }

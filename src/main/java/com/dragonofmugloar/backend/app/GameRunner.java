@@ -57,5 +57,9 @@ public class GameRunner implements CommandLineRunner {
             log.info("Item {} puchased status {}", item.getId(), itemStatus);
         });
 
+        reputation = gameService.getReputation(gameInfo.get().getGameId());
+
+        log.info("Reputation {}", reputation);
+
     }
 }

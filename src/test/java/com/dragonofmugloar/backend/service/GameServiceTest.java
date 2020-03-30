@@ -25,36 +25,15 @@ import static org.junit.jupiter.api.Assertions.*;
         }
 )
 @Slf4j
-class GameServiceTest extends ApplicationTesting {
-
-    @Autowired
-    private GameService gameService;
+class GameServiceTest {
 
     @DisplayName("Test WebClient and Start Game")
     @Test
     void startGame() {
-
-        log.info("Init game with {}", gameInfo);
-
-        assertNotNull(gameInfo.getGameId(), "Game id check");
-
-        assertEquals(0, gameInfo.getGold());
-        assertEquals(0, gameInfo.getLevel());
-        assertEquals(0, gameInfo.getTurn());
-        assertEquals(3, gameInfo.getLives());
     }
 
     @DisplayName("Test Reputation response")
     @Test
     void getReputation() {
-        Optional<Reputation> reputation = gameService.getReputation(gameInfo.getGameId());
-
-        assertTrue(reputation.isPresent(), "No Reputation data from server");
-
-        log.info("Reputation: {}", reputation.get());
-
-        assertEquals(0, reputation.get().getPeople());
-        assertEquals(0, reputation.get().getState());
-        assertEquals(0, reputation.get().getUnderworld());
     }
 }

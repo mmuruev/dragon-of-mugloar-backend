@@ -3,6 +3,7 @@ package com.dragonofmugloar.backend.test;
 
 import com.dragonofmugloar.backend.App;
 import com.dragonofmugloar.backend.app.GameRunner;
+import com.dragonofmugloar.backend.conf.IntegrationTest;
 import com.dragonofmugloar.backend.model.common.GameInfo;
 import com.dragonofmugloar.backend.service.GameService;
 import org.junit.jupiter.api.BeforeEach;

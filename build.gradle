@@ -40,7 +40,9 @@ dependencies {
 
     implementation "org.springframework.boot:spring-boot-starter-webflux:${springBootVersion}"
 
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"
+    testImplementation (group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}") {
+        exclude group: 'junit', module: 'junit'
+    }
 
     implementation("org.projectreactor:reactor-spring:${reactorSpringVersion}") {
         exclude module: "spring-tx"

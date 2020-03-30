@@ -36,7 +36,7 @@ public class TaskServiceIntTest extends ApplicationTesting {
 
     @BeforeEach
     void setUp() {
-        assertNotNull(gameInfo, "GameInfo is required for testing");
+        assertNotNull(gameInfo.getGameId(), "GameInfo is required for testing");
     }
 
     @DisplayName("Look into all quests list")
