@@ -23,7 +23,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Import(TestConfiguration.class)
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @SpringBootTest(classes = {App.class})
 @TestExecutionListeners(inheritListeners = false,
     listeners =
@@ -32,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
             DirtiesContextTestExecutionListener.class
         }
 )
+@IntegrationTest
 public abstract class ApplicationTesting {
     @MockBean
     private GameRunner gameRunner; // avoid app run

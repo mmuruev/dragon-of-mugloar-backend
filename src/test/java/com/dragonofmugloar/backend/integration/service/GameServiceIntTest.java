@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.*;
         }
 )
 @Slf4j
-@IntegrationTest
 class GameServiceIntTest extends ApplicationTesting {
 
     @Autowired

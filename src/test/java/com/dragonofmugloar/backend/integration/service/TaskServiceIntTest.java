@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.*;
         }
 )
 @Slf4j
-@IntegrationTest
 public class TaskServiceIntTest extends ApplicationTesting {
 
     @Autowired

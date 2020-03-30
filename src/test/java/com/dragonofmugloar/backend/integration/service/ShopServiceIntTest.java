@@ -1,8 +1,6 @@
 package com.dragonofmugloar.backend.integration.service;
 
-import com.dragonofmugloar.backend.conf.IntegrationTest;
 import com.dragonofmugloar.backend.dto.shop.ItemId;
-import com.dragonofmugloar.backend.dto.task.AdId;
 import com.dragonofmugloar.backend.model.shop.Item;
 import com.dragonofmugloar.backend.model.shop.ItemStatus;
 import com.dragonofmugloar.backend.model.task.Ad;
@@ -23,7 +21,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestExecutionListeners(inheritListeners = false,
     listeners =
@@ -33,7 +30,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         }
 )
 @Slf4j
-@IntegrationTest
 public class ShopServiceIntTest extends ApplicationTesting {
 
     @Autowired
@@ -57,7 +53,7 @@ public class ShopServiceIntTest extends ApplicationTesting {
         log.info("Shop items list {}", itemsList);
     }
 
-    @DisplayName("Trying to byu items")
+    @DisplayName("Trying to buy items")
     @Test
     void purchaseItem() {
 
@@ -76,21 +72,27 @@ public class ShopServiceIntTest extends ApplicationTesting {
     }
 
     private void getCredit() {
-        List<Ad> allMessages = taskService.getAllMessages(gameInfo.getGameId());
+        Optional<AdStatus> adStatus = Optional.of(new AdStatus());
 
-        Ad ad = allMessages.stream().findFirst().orElseThrow();
-
-        log.info("Task for solving: {}", ad);
-
-        Optional<AdStatus> adStatus = taskService.solveTask(gameInfo.getGameId(), ad.getAdId());
-
-        assertTrue(adStatus.isPresent(), "Solving result acquired");
-
-        while (adStatus.isPresent() && adStatus.get().getLives() > 0 && !adStatus.get().isSuccess()) {
-            adStatus = taskService.solveTask(gameInfo.getGameId(), ad.getAdId());
+        while (adStatus.isPresent() && adStatus.get().getGold() < 100) {
+            Ad ad = taskService.getAllMessages(gameInfo.getGameId()).stream().findFirst().orElseThrow();
+            log.info("Task for solving: {}", ad);
+            adStatus = solver(ad);
+            log.info("Solved {}", adStatus.get());
         }
 
-        assertTrue(adStatus.isPresent() && adStatus.get().getGold() > 100, "Solving result is successful");
+        assertTrue(adStatus.isPresent(), "Solving result acquired");
+        assertTrue(adStatus.get().getGold() > 100, "Solving result is successful");
+    }
+
+    private Optional<AdStatus> solver(Ad ad) {
+        Optional<AdStatus> adStatus;
+
+        int expiresIn = ad.getExpiresIn();
+        log.info("Game: {} Ad: {} Expires {}", gameInfo.getGameId(), ad.getAdId(), expiresIn);
+        adStatus = taskService.solveTask(gameInfo.getGameId(), ad.getAdId());
+        log.info("Game: {} Ad: {} Status {}", gameInfo.getGameId(), ad.getAdId(), adStatus);
+        return adStatus;
     }
 
 }
