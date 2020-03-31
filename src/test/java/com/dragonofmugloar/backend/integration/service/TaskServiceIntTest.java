@@ -1,6 +1,5 @@
 package com.dragonofmugloar.backend.integration.service;
 
-import com.dragonofmugloar.backend.conf.IntegrationTest;
 import com.dragonofmugloar.backend.model.task.Ad;
 import com.dragonofmugloar.backend.model.task.AdStatus;
 import com.dragonofmugloar.backend.service.TaskService;

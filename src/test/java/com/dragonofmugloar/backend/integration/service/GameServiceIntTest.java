@@ -1,7 +1,5 @@
 package com.dragonofmugloar.backend.integration.service;
 
-
-import com.dragonofmugloar.backend.conf.IntegrationTest;
 import com.dragonofmugloar.backend.model.character.Reputation;
 import com.dragonofmugloar.backend.service.GameService;
 import com.dragonofmugloar.backend.test.ApplicationTesting;

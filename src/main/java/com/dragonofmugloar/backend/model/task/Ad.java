@@ -17,4 +17,8 @@ public class Ad {
     private String reward;
 
     private int expiresIn;
+
+    private AdProbability probability;
+
+    private String encrypted; // WTF? no mention in API doc
 }
