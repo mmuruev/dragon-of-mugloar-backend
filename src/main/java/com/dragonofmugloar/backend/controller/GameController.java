@@ -7,6 +7,7 @@ import com.dragonofmugloar.backend.model.common.GameInfo;
 import com.dragonofmugloar.backend.model.shop.Item;
 import com.dragonofmugloar.backend.model.shop.ItemStatus;
 import com.dragonofmugloar.backend.model.task.Ad;
+import com.dragonofmugloar.backend.model.task.AdProbability;
 import com.dragonofmugloar.backend.model.task.AdStatus;
 import com.dragonofmugloar.backend.service.GameService;
 import com.dragonofmugloar.backend.service.ShopService;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 @Component
@@ -115,7 +117,15 @@ public class GameController {
     }
 
     private Optional<Ad> findTask(List<Ad> tasks) {
-        return tasks.stream().min(Comparator.comparingInt(ad -> ad.getProbability().getLevel()));
+        return tasks.stream()
+            .filter(task -> !task.getMessage().contains("Steal"))
+            //   .filter(task -> task.getProbability().getLevel() > AdProbability.LEVEL_1.getLevel())
+            .max(Comparator.comparingDouble(GameController::computeTaskRate))
+            ;
+    }
+
+    private static double computeTaskRate(Ad ad) {
+        return new BigDecimal(ad.getReward()).divide(BigDecimal.valueOf(ad.getProbability().getLevel() + 1), RoundingMode.CEILING).doubleValue();
     }
 
     private List<Ad> updateTasks() {

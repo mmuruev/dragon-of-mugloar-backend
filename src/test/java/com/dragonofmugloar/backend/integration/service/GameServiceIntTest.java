@@ -60,9 +60,9 @@ class GameServiceIntTest extends ApplicationTesting {
 
         log.info("Reputation: {}", reputation.get());
 
-        assertEquals(0, reputation.get().getPeople());
-        assertEquals(0, reputation.get().getState());
-        assertEquals(0, reputation.get().getUnderworld());
+        assertEquals(BigDecimal.ZERO, reputation.get().getPeople());
+        assertEquals(BigDecimal.ZERO, reputation.get().getState());
+        assertEquals(BigDecimal.ZERO, reputation.get().getUnderworld());
     }
 }
 
