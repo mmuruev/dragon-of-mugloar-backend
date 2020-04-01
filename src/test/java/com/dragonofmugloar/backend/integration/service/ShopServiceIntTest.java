@@ -17,6 +17,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,7 +58,7 @@ public class ShopServiceIntTest extends ApplicationTesting {
     @Test
     void purchaseItem() {
 
-        if (gameInfo.getGold() < 100) {
+        if (gameInfo.getGold().compareTo(BigDecimal.valueOf(100)) < 0) {
             log.info("Not enough credit {}", gameInfo.getGold());
             getCredit();
         }
@@ -74,7 +75,7 @@ public class ShopServiceIntTest extends ApplicationTesting {
     private void getCredit() {
         Optional<AdStatus> adStatus = Optional.of(new AdStatus());
 
-        while (adStatus.isPresent() && adStatus.get().getGold() < 100) {
+        while (adStatus.isPresent() && adStatus.get().getGold().compareTo(BigDecimal.valueOf(100)) <= 0) {
             Ad ad = taskService.getAllMessages(gameInfo.getGameId()).stream().findFirst().orElseThrow();
             log.info("Task for solving: {}", ad);
             adStatus = solver(ad);
@@ -82,7 +83,7 @@ public class ShopServiceIntTest extends ApplicationTesting {
         }
 
         assertTrue(adStatus.isPresent(), "Solving result acquired");
-        assertTrue(adStatus.get().getGold() > 100, "Solving result is successful");
+        assertTrue(adStatus.get().getGold().compareTo(BigDecimal.valueOf(100)) >= 0, "Solving result is successful");
     }
 
     private Optional<AdStatus> solver(Ad ad) {

@@ -12,6 +12,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,7 +45,7 @@ class GameServiceIntTest extends ApplicationTesting {
 
         assertNotNull(gameInfo.getGameId(), "Game id check");
 
-        assertEquals(0, gameInfo.getGold());
+        assertEquals(BigDecimal.ZERO, gameInfo.getGold());
         assertEquals(0, gameInfo.getLevel());
         assertEquals(0, gameInfo.getTurn());
         assertEquals(3, gameInfo.getLives());

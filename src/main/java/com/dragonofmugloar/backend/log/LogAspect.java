@@ -18,13 +18,13 @@ public class LogAspect {
         value = "execution(*  com.dragonofmugloar.backend.service.impl.GameServiceMugloar.startGame(..))",
         returning = "gameInfo")
     public void logWebClientGameInfoRequest(GameInfo gameInfo) {
-        log.info("Game info {}", gameInfo);
+        log.debug("Game info {}", gameInfo);
     }
 
     @AfterReturning(
         value = "execution(*  com.dragonofmugloar.backend.service.impl.GameServiceMugloar.getReputation(..))",
         returning = "reputation")
     public void logWebClientReputationRequest(Reputation reputation) {
-        log.info("Reputation {}", reputation);
+        log.debug("Reputation {}", reputation);
     }
 }

@@ -2,6 +2,8 @@ package com.dragonofmugloar.backend.model.task;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -12,7 +14,7 @@ public class AdStatus {
 
     private int lives;
 
-    private int gold;
+    private BigDecimal gold = BigDecimal.ZERO;
 
     private int score;
 

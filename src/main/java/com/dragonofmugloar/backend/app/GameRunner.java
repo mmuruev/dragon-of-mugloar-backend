@@ -1,6 +1,7 @@
 package com.dragonofmugloar.backend.app;
 
 
+import com.dragonofmugloar.backend.controller.GameController;
 import com.dragonofmugloar.backend.model.character.Reputation;
 import com.dragonofmugloar.backend.model.common.GameInfo;
 import com.dragonofmugloar.backend.model.shop.Item;
@@ -26,9 +27,22 @@ public class GameRunner implements CommandLineRunner {
     final private TaskService taskService;
     final private ShopService shopService;
 
+    final private GameController gameController;
+
 
     @Override
     public void run(String... args) {
+        GameInfo gameInfo;
+        do {
+            gameInfo = gameController.playRound();
+            log.info("Game status {}", gameInfo);
+        } while (gameInfo.isStillAlive());
+
+        log.info("Game Over! With statics {}", gameInfo);
+    }
+
+
+    private void oldTestLogic() {
         final Optional<GameInfo> gameInfo = gameService.startGame();
 
         log.info("Game info {}", gameInfo);
@@ -60,6 +74,5 @@ public class GameRunner implements CommandLineRunner {
         reputation = gameService.getReputation(gameInfo.get().getGameId());
 
         log.info("Reputation {}", reputation);
-
     }
 }
