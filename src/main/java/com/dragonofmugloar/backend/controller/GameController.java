@@ -31,10 +31,6 @@ public class GameController {
 
     ///
     private GameInfo gameInfo;
-    private Reputation reputation;
-    private List<Ad> tasks;
-
-    private List<Item> lastItemList;
 
     private Map<ItemId, Item> alreadyBoughtItems = new HashMap<>(10);
 
@@ -49,14 +45,14 @@ public class GameController {
             return gameInfo;
         }
 
-        reputation = gameService.getReputation(gameInfo.getGameId()).orElse(new Reputation());  // <-- unwise?
+        Reputation reputation = gameService.getReputation(gameInfo.getGameId()).orElse(new Reputation());  // <-- unwise?
         shopThings();
         log.info("Reputation {}", reputation);
         return gameInfo;
     }
 
     private void shopThings() {
-        lastItemList = shopService.getItemsList(gameInfo.getGameId());
+        List<Item> lastItemList = shopService.getItemsList(gameInfo.getGameId());
 
         if (!gameInfo.isFullLives()) {
             lastItemList.stream()
@@ -66,12 +62,14 @@ public class GameController {
                     if (gameInfo.getGold().compareTo(hp.getCost()) >= 0) {
                         shopService.purchaseHealingPot(gameInfo.getGameId())
                             .ifPresent(hStatus -> {
+
                                 if ("true".equals(hStatus.getShoppingSuccess())) {
                                     log.info("Successfully bough HPOT: {}", hp);
                                 } else {
                                     log.error("Shopping HPOT unsuccessful {}", hStatus.getShoppingSuccess());
                                 }
 
+                                updateGameInfoAfterShop(hStatus);
                             });
                     } else {
                         log.info("No money for buy HPOT :(");
@@ -86,12 +84,13 @@ public class GameController {
             .ifPresent(it -> {
                 if (gameInfo.getGold().add(BigDecimal.valueOf(100)).compareTo(it.getCost()) >= 0) {
                     shopService.purchaseItem(gameInfo.getGameId(), it.getId())
-                        .ifPresent(i -> {
-                            if ("true".equals(i.getShoppingSuccess())) {
+                        .ifPresent(itemStatus -> {
+                            if ("true".equals(itemStatus.getShoppingSuccess())) {
                                 alreadyBoughtItems.put(it.getId(), it);
                                 log.info("Successfully bough Item: {}", it);
+                                updateGameInfoAfterShop(itemStatus);
                             } else {
-                                log.error("Shopping unsuccessful {}  {}", it, i.getShoppingSuccess());
+                                log.error("Shopping unsuccessful {}  {}", it, itemStatus.getShoppingSuccess());
                             }
                         });
                 } else {
@@ -107,14 +106,12 @@ public class GameController {
         findTask(ads).ifPresent(this::solve);
     }
 
-    private Optional<AdStatus> solve(Ad task) {
+    private void solve(Ad task) {
         Optional<AdStatus> adStatus = taskService.solveTask(gameInfo.getGameId(), task.getAdId());
 
         adStatus.ifPresent(this::updateGameInfoAfterTask);
 
         log.info("Solving task {} with success: {}", task, adStatus.map(AdStatus::isSuccess).orElse(false));
-        return adStatus;
-
     }
 
     private Optional<Ad> findTask(List<Ad> tasks) {
@@ -122,7 +119,7 @@ public class GameController {
     }
 
     private List<Ad> updateTasks() {
-        return tasks = taskService.getAllMessages(gameInfo.getGameId());
+        return taskService.getAllMessages(gameInfo.getGameId());
     }
 
     private void updateGameInfoAfterTask(AdStatus adStatus) {
