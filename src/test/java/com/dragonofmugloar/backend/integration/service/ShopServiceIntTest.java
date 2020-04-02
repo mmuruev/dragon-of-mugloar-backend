@@ -79,7 +79,7 @@ public class ShopServiceIntTest extends ApplicationTesting {
             Ad ad = taskService.getAllMessages(gameInfo.getGameId()).stream().findFirst().orElseThrow();
             log.info("Task for solving: {}", ad);
             adStatus = solver(ad);
-            log.info("Solved {}", adStatus.get());
+            log.info("Solved {}", adStatus.orElse(null));
         }
 
         assertTrue(adStatus.isPresent(), "Solving result acquired");
