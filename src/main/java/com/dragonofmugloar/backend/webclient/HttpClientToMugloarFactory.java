@@ -22,9 +22,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class HttpClientToMugloarFactory {
 
-    private int HTTP_REQUEST_TIMEOUT_MILLISECONDS;
+    private final int HTTP_REQUEST_TIMEOUT_MILLISECONDS;
 
-    private String BASE_API_URL;
+    private final String BASE_API_URL;
 
     public HttpClientToMugloarFactory(
         @Value("${api.base.url}") String baseUrlApi,
