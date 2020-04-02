@@ -33,7 +33,7 @@ public class GameController {
     ///
     private GameInfo gameInfo;
 
-    private Map<ItemId, Item> alreadyBoughtItems = new HashMap<>(10);
+    private final Map<ItemId, Item> alreadyBoughtItems = new HashMap<>(10);
 
     public GameInfo playRound() {
         if (gameInfo == null) {
