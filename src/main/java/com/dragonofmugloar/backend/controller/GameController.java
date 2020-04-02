@@ -7,7 +7,6 @@ import com.dragonofmugloar.backend.model.common.GameInfo;
 import com.dragonofmugloar.backend.model.shop.Item;
 import com.dragonofmugloar.backend.model.shop.ItemStatus;
 import com.dragonofmugloar.backend.model.task.Ad;
-import com.dragonofmugloar.backend.model.task.AdProbability;
 import com.dragonofmugloar.backend.model.task.AdStatus;
 import com.dragonofmugloar.backend.service.GameService;
 import com.dragonofmugloar.backend.service.ShopService;
