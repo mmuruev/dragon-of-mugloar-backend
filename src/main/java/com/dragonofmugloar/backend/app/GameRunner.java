@@ -23,12 +23,7 @@ import java.util.Optional;
 @Slf4j
 public class GameRunner implements CommandLineRunner {
 
-    final private GameService gameService;
-    final private TaskService taskService;
-    final private ShopService shopService;
-
     final private GameController gameController;
-
 
     @Override
     public void run(String... args) {
