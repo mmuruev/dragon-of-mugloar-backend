@@ -23,12 +23,7 @@ import java.util.Optional;
 @Slf4j
 public class GameRunner implements CommandLineRunner {
 
-    final private GameService gameService;
-    final private TaskService taskService;
-    final private ShopService shopService;
-
     final private GameController gameController;
-
 
     @Override
     public void run(String... args) {
@@ -39,40 +34,5 @@ public class GameRunner implements CommandLineRunner {
         } while (gameInfo.isStillAlive());
 
         log.info("Game Over! With statics {}", gameInfo);
-    }
-
-
-    private void oldTestLogic() {
-        final Optional<GameInfo> gameInfo = gameService.startGame();
-
-        log.info("Game info {}", gameInfo);
-
-        Optional<Reputation> reputation = gameService.getReputation(gameInfo.get().getGameId());
-
-        log.info("Reputation {}", reputation);
-
-        List<Ad> allTasks = taskService.getAllMessages(gameInfo.get().getGameId());
-
-        log.info("All Tasks {}", allTasks);
-
-//        allTasks.forEach(task -> {
-//            Optional<AdStatus> adStatus = taskService.solveTask(gameInfo.get().getGameId(), task.getAdId());
-//            log.info("Task {} solved status {}", task.getAdId(), adStatus);
-//        });
-
-
-        List<Item> itemsList = shopService.getItemsList(gameInfo.get().getGameId());
-
-        log.info("All items {}", itemsList);
-
-
-        itemsList.stream().findFirst().ifPresent(item -> {
-            Optional<ItemStatus> itemStatus = shopService.purchaseItem(gameInfo.get().getGameId(), item.getId());
-            log.info("Item {} puchased status {}", item.getId(), itemStatus);
-        });
-
-        reputation = gameService.getReputation(gameInfo.get().getGameId());
-
-        log.info("Reputation {}", reputation);
     }
 }
