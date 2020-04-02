@@ -25,6 +25,6 @@ public class GameInfo {
     }
 
     public boolean isFullLives() {
-        return lives > 2;
+        return lives > 1;
     }
 }
