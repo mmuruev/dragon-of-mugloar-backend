@@ -20,4 +20,20 @@ After installing Gradle, you should be able to run the following command to buil
 You will only need to run this command when dependencies change in [build.gradle](build.gradle).
 
     gradle build
+    
+    
+### Run tests
+
+Unit test can be run by 
+    
+    gradle clean test
+        
+Integration test can be run by 
+    
+    gradle clean integrationTest 
+    
+
+All tests by one task
+    
+    gradle clean check       
 

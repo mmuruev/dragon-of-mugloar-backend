@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "api.request.timeout.milliseconds",
+      "type": "java.lang.Integer",
+      "description": "Description for api.request.timeout.milliseconds."
+    },
+    {
+      "name": "api.base.url",
+      "type": "java.lang.String",
+      "description": "Description for api.base.url."
+    }
+  ]
+}
